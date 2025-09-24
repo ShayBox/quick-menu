@@ -24,16 +24,8 @@ public class SwitcherSurface implements Surface {
 
         int sourceX = (isHeader) ? 0 : 24;
 
-        // Make sure the background renders as transparent.
-        if (!isHeader) RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1, 1, 1, 1);
-
         // Draws the texture as a 9 slice.
         drawNineSlicedTexture(context, x, y, width, height, sourceX, 0, 6, 6, 12, 12, 52, 50);
-
-        // Undo previous render system changes.
-        if (!isHeader) RenderSystem.disableBlend();
-        RenderSystem.setShaderColor(1, 1, 1, 1);
     }
 
     public void drawNineSlicedTexture(OwoUIDrawContext context, int x, int y, int width, int height, int sourceX, int sourceY, int sideWidth, int sideHeight, int centerWidth, int centerHeight, int textureWidth, int textureHeight) {
@@ -59,7 +51,8 @@ public class SwitcherSurface implements Surface {
     }
 
     public void drawTexture(OwoUIDrawContext context, int x, int y, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int textureWidth, int textureHeight) {
-        context.drawTexture(RenderLayer::getGuiTexturedOverlay, Identifier.of("quickmenu", "textures/switcher_textures.png"), x, y, sourceX, sourceY, sourceWidth, sourceHeight, textureWidth, textureHeight);
+        // Try using the standard drawTexture method available on DrawContext
+        context.drawTexture(Identifier.of("quickmenu", "textures/switcher_textures.png"), x, y, sourceX, sourceY, sourceWidth, sourceHeight);
     }
 
     public void drawRepeatingTexture(OwoUIDrawContext context, int x, int y, int sourceX, int sourceY, int sourceWidth, int sourceHeight, int textureWidth, int textureHeight, int width, int height) {
